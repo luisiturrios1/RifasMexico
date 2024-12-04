@@ -14,6 +14,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        title: "Sorteos",
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
@@ -29,15 +30,22 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Rifas',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="newspaper.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="boletos"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Boletos',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="rectangle.fill.on.rectangle.angled.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="info"
+        options={{
+          title: 'Info',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="info.bubble.fill" color={color} />,
         }}
       />
     </Tabs>
