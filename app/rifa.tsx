@@ -2,12 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
 import moment from 'moment';
 import 'moment/locale/es';
-import { Image, StyleSheet } from 'react-native';
+import React from "react";
+import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from "react-native-vector-icons/Ionicons"; // Puedes cambiar por otra librería de íconos
 
-import { ExternalLink } from '@/components/ExternalLink';
+
+import { Emision } from '@/components/Emision';
 import { ParallaxScrollView } from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme.web';
 import { fetchCover } from '@/lib/cover';
 import { fetchRifasById } from '@/lib/dbRifas';
 import { fetchSettings } from '@/lib/setting';
@@ -18,6 +23,7 @@ type Params = {
 
 export default function RifaScreen() {
   const { rifaId } = useLocalSearchParams<Params>();
+  const colorScheme = useColorScheme();
 
   const rifaQuery = useQuery({
     queryKey: ['rifa', rifaId],
@@ -39,6 +45,17 @@ export default function RifaScreen() {
     queryFn: async () => fetchSettings(api, sorteoId),
     enabled: !!sorteoId
   });
+
+  const openURL = (url?: string): void => {
+    if (!url) {
+      console.warn("La URL está vacía o no está definida.");
+      return;
+    }
+
+    Linking.openURL(url).catch((err) => {
+      console.error("No se pudo abrir la URL:", err);
+    });
+  };
 
   return (
     <ParallaxScrollView
@@ -64,14 +81,42 @@ export default function RifaScreen() {
         </ThemedView>
       </ThemedView>
       {rifaQuery.isFetched &&
-        <ThemedView style={styles.callToAction}>
-          <ExternalLink href={rifaQuery.data?.website}>
-            <ThemedText type="link">WebSite</ThemedText>
-          </ExternalLink>
-          <ExternalLink href={rifaQuery.data?.facebook}>
-            <ThemedText type="link">Facebook</ThemedText>
-          </ExternalLink>
-        </ThemedView>
+        <>
+          <Emision api={api} rifaId={rifaId} sorteoId={sorteoId} />
+          <ThemedView style={styles.containerBoxes}>
+            <TouchableOpacity
+              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
+              onPress={() => { openURL(rifaQuery.data?.website + `s${sorteoId}-lista`) }}
+            >
+              <Icon name="globe-outline" size={35} color="white" />
+              <ThemedText>WebSite</ThemedText>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
+              onPress={() => { openURL(rifaQuery.data?.facebook) }}
+            >
+              <Icon name="logo-facebook" size={35} color="white" />
+              <ThemedText>Facebook</ThemedText>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
+              onPress={() => { openURL(rifaQuery.data?.website + `s${sorteoId}-verificador`) }}
+            >
+              <Icon name="checkmark-circle" size={35} color="white" />
+              <ThemedText>Verificador</ThemedText>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
+              onPress={() => { openURL(rifaQuery.data?.website + "pagos") }}
+            >
+              <Icon name="cash" size={35} color="white" />
+              <ThemedText>Pagos</ThemedText>
+            </TouchableOpacity>
+          </ThemedView>
+        </>
       }
     </ParallaxScrollView>
   );
@@ -98,11 +143,28 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
-  callToAction: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 20,
+  containerBoxes: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flex: 1,
+  },
+  box: {
+    width: 85,
+    height: 85,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  text: {
+    fontSize: 16,
+    marginTop: 8,
   },
 });

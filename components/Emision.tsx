@@ -1,5 +1,5 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+
 import { ThemedText } from '@/components/ThemedText';
 
 type NumberItem = {
@@ -12,22 +12,22 @@ type ApiResponse = {
   body: NumberItem[];
 };
 
-interface ListaSorteosItemEmisionProps {
+interface EmisionProps {
   api: string;
-  rifero: string;
-  sorteo: string;
+  rifaId: string;
+  sorteoId: string;
 }
 
-export function ListaSorteosItemEmision({
+export function Emision({
   api,
-  rifero,
-  sorteo,
-}: ListaSorteosItemEmisionProps) {
+  rifaId,
+  sorteoId,
+}: EmisionProps) {
 
   const { isLoading, isError, data } = useQuery<ApiResponse>({
-    queryKey: ['numbers', rifero, sorteo],
+    queryKey: ['rifa', 'numbers', rifaId, sorteoId],
     queryFn: async () => {
-      const response = await fetch(`${api}/numbers?collection=S${sorteo}`);
+      const response = await fetch(`${api}/numbers?collection=S${sorteoId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -35,11 +35,11 @@ export function ListaSorteosItemEmision({
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !data?.body) {
     return <ThemedText>...</ThemedText>;
   }
 
-  if (isError || !data?.body) {
+  if (isError) {
     return <ThemedText>Error</ThemedText>;
   }
 
@@ -48,7 +48,10 @@ export function ListaSorteosItemEmision({
 
   return (
     <ThemedText>
-      {`V: ${selectedItems} E: ${totalItems}`}
+      <ThemedText type='defaultSemiBold'>Vendidos: </ThemedText>
+      {selectedItems}
+      <ThemedText type='defaultSemiBold'> Emitidos: </ThemedText>
+      {totalItems}
     </ThemedText>
   );
 }
