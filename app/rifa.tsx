@@ -76,8 +76,8 @@ export default function RifaScreen() {
           <ThemedText>S{coverQuery.data?.link}</ThemedText>
         </ThemedView>
         <ThemedView>
-          <ThemedText type='subtitle'>Fecha</ThemedText>
-          <ThemedText>{moment(settingsQuery.data?.raffleDate).format("D [de] MMMM")}</ThemedText>
+          <ThemedText type='subtitle' style={{ textAlign: "right" }}>Fecha</ThemedText>
+          <ThemedText style={{ textAlign: "right" }}>{moment(settingsQuery.data?.raffleDate).format("D [de] MMMM")}</ThemedText>
         </ThemedView>
       </ThemedView>
       {rifaQuery.isFetched &&
@@ -88,7 +88,7 @@ export default function RifaScreen() {
               style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
               onPress={() => { openURL(rifaQuery.data?.website + `s${sorteoId}-lista`) }}
             >
-              <Icon name="globe-outline" size={35} color="white" />
+              <Icon name="globe-outline" size={35} color={Colors[colorScheme ?? 'light'].text} />
               <ThemedText>WebSite</ThemedText>
             </TouchableOpacity>
 
@@ -96,7 +96,7 @@ export default function RifaScreen() {
               style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
               onPress={() => { openURL(rifaQuery.data?.facebook) }}
             >
-              <Icon name="logo-facebook" size={35} color="white" />
+              <Icon name="logo-facebook" size={35} color={Colors[colorScheme ?? 'light'].text} />
               <ThemedText>Facebook</ThemedText>
             </TouchableOpacity>
 
@@ -104,7 +104,7 @@ export default function RifaScreen() {
               style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
               onPress={() => { openURL(rifaQuery.data?.website + `s${sorteoId}-verificador`) }}
             >
-              <Icon name="checkmark-circle" size={35} color="white" />
+              <Icon name="checkmark-circle" size={35} color={Colors[colorScheme ?? 'light'].text} />
               <ThemedText>Verificador</ThemedText>
             </TouchableOpacity>
 
@@ -112,7 +112,7 @@ export default function RifaScreen() {
               style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
               onPress={() => { openURL(rifaQuery.data?.website + "pagos") }}
             >
-              <Icon name="cash" size={35} color="white" />
+              <Icon name="cash" size={35} color={Colors[colorScheme ?? 'light'].text} />
               <ThemedText>Pagos</ThemedText>
             </TouchableOpacity>
           </ThemedView>

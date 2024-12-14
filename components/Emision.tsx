@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 
 type NumberItem = {
   number: string;
@@ -36,7 +40,7 @@ export function Emision({
   });
 
   if (isLoading || !data?.body) {
-    return <ThemedText>...</ThemedText>;
+    return <ActivityIndicator />;
   }
 
   if (isError) {
@@ -45,13 +49,30 @@ export function Emision({
 
   const totalItems = data.body.length;
   const selectedItems = data.body.filter((item) => item.selectedNumber).length;
+  const progress = (selectedItems / totalItems) * 100;
+
+  const formatNumber = (num: number) => new Intl.NumberFormat('es-MX').format(num);
 
   return (
-    <ThemedText>
-      <ThemedText type='defaultSemiBold'>Vendidos: </ThemedText>
-      {selectedItems}
-      <ThemedText type='defaultSemiBold'> Emitidos: </ThemedText>
-      {totalItems}
-    </ThemedText>
+    <>
+      <ProgressBar progress={progress}></ProgressBar>
+      <ThemedView style={styles.textContainer}>
+        <ThemedView>
+          <ThemedText type='defaultSemiBold'>Vendidos: </ThemedText>
+          <ThemedText>{formatNumber(selectedItems)}</ThemedText>
+        </ThemedView>
+        <ThemedView>
+          <ThemedText type='defaultSemiBold' style={{ textAlign: "right" }}>Emitidos: </ThemedText>
+          <ThemedText style={{ textAlign: "right" }}>{formatNumber(totalItems)}</ThemedText>
+        </ThemedView>
+      </ThemedView>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  textContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
