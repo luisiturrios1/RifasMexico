@@ -8,6 +8,8 @@ export type Rifa = {
   facebook: string;
   api: string;
   sitio: string;
+  rating: number;
+  reviews: number;
 };
 
 /**

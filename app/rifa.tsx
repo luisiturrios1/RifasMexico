@@ -11,6 +11,7 @@ import { Emision } from '@/components/Emision';
 import { ParallaxScrollView } from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Estrellas } from '@/components/ui/Estrellas';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme.web';
 import { fetchCover } from '@/lib/cover';
@@ -68,7 +69,10 @@ export default function RifaScreen() {
       }>
       <ThemedView style={styles.titleContainer}>
         <Image source={{ uri: rifaQuery.data?.logo }} style={styles.avatar} />
-        <ThemedText type="title">{rifaQuery.data?.nombre}</ThemedText>
+        <ThemedView>
+          <ThemedText type="subtitle">{rifaQuery.data?.nombre}</ThemedText>
+          <Estrellas rating={rifaQuery.data?.rating} reviews={rifaQuery.data?.reviews} />
+        </ThemedView>
       </ThemedView>
       <ThemedView style={styles.detailsContainer}>
         <ThemedView>

@@ -9,6 +9,7 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Estrellas } from '@/components/ui/Estrellas';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -48,7 +49,7 @@ export function ListaSorteosItem({ item }: { item: Rifa }) {
           </ThemedView>
           {coverQuery.isFetched &&
             <>
-              <ThemedText type="defaultSemiBold">{"S" + sorteoId}</ThemedText>
+              <Estrellas rating={item.rating} reviews={item.reviews} />
               {settingsQuery.isFetched && <ThemedText>{moment(settingsQuery.data?.raffleDate).format("D [de] MMMM")}</ThemedText>}
             </>
           }
