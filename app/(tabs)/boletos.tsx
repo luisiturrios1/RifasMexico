@@ -1,7 +1,5 @@
-import { Image, Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
 import { TabParallaxScrollView } from '@/components/TabParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';

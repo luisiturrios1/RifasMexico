@@ -2,14 +2,13 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import { router } from "expo-router";
-import moment from 'moment';
-import 'moment/locale/es';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Estrellas } from '@/components/ui/Estrellas';
+import { Fecha } from '@/components/ui/Fecha';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -50,7 +49,7 @@ export function ListaSorteosItem({ item }: { item: Rifa }) {
           {coverQuery.isFetched &&
             <>
               <Estrellas rating={item.rating} reviews={item.reviews} />
-              {settingsQuery.isFetched && <ThemedText>{moment(settingsQuery.data?.raffleDate).format("D [de] MMMM")}</ThemedText>}
+              {settingsQuery.isFetched && <Fecha fecha={settingsQuery.data?.raffleDate} />}
             </>
           }
         </ThemedView>

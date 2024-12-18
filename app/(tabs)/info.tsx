@@ -1,7 +1,6 @@
 import { Link } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
-
 import { Collapsible } from '@/components/Collapsible';
 import { TabParallaxScrollView } from '@/components/TabParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';

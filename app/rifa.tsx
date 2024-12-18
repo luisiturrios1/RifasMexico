@@ -1,17 +1,15 @@
+import Icon from '@expo/vector-icons/Ionicons';
 import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
-import moment from 'moment';
-import 'moment/locale/es';
 import React from "react";
 import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from "react-native-vector-icons/Ionicons"; // Puedes cambiar por otra librería de íconos
-
 
 import { Emision } from '@/components/Emision';
 import { ParallaxScrollView } from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Estrellas } from '@/components/ui/Estrellas';
+import { Fecha } from '@/components/ui/Fecha';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme.web';
 import { fetchCover } from '@/lib/cover';
@@ -81,7 +79,7 @@ export default function RifaScreen() {
         </ThemedView>
         <ThemedView>
           <ThemedText type='subtitle' style={{ textAlign: "right" }}>Fecha</ThemedText>
-          <ThemedText style={{ textAlign: "right" }}>{moment(settingsQuery.data?.raffleDate).format("D [de] MMMM")}</ThemedText>
+          <Fecha fecha={settingsQuery.data?.raffleDate} />
         </ThemedView>
       </ThemedView>
       {rifaQuery.isFetched &&

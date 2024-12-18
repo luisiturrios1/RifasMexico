@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
@@ -7,7 +7,6 @@ import { fetchRifas } from '@/lib/rifas';
 
 
 export function ListaSorteos() {
-  const queryClient = useQueryClient();
   const [isRefreshing, setRefreshing] = useState(false);
 
   const { data, refetch } = useQuery({
