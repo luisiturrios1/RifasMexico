@@ -4,6 +4,7 @@ import {
 import { router } from "expo-router";
 import moment from 'moment';
 import 'moment/locale/es';
+import React from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -12,7 +13,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { fetchCover } from '@/lib/cover';
-import { Rifa } from '@/lib/dbRifas';
+import { Rifa } from '@/lib/rifa';
 import { fetchSettings } from '@/lib/setting';
 
 

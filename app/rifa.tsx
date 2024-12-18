@@ -14,7 +14,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme.web';
 import { fetchCover } from '@/lib/cover';
-import { fetchRifasById } from '@/lib/dbRifas';
+import { fetchRifa } from '@/lib/rifa';
 import { fetchSettings } from '@/lib/setting';
 
 type Params = {
@@ -27,7 +27,7 @@ export default function RifaScreen() {
 
   const rifaQuery = useQuery({
     queryKey: ['rifa', rifaId],
-    queryFn: async () => fetchRifasById(rifaId),
+    queryFn: async () => fetchRifa(rifaId),
   });
 
   const api = rifaQuery.data?.api;

@@ -1,26 +1,24 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import { ListaSorteosItem } from '@/components/ListaSorteosItem';
-import { fetchRifas } from '@/lib/dbRifas';
-import { useCallback, useState } from 'react';
+import { fetchRifas } from '@/lib/rifas';
 
 
 export function ListaSorteos() {
   const queryClient = useQueryClient();
   const [isRefreshing, setRefreshing] = useState(false);
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['rifa'],
     queryFn: fetchRifas
   });
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    queryClient.invalidateQueries({ queryKey: ['rifa'] });
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 500);
+    await refetch();
+    setRefreshing(false);
   }, []);
 
   return (
