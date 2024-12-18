@@ -5,8 +5,8 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 
 interface EstrellasProps {
-  rating: number;
-  reviews: number;
+  rating: number | undefined;
+  reviews: number | undefined;
 }
 
 export const Estrellas = function ({

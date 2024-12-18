@@ -55,10 +55,9 @@ export function Emision({
 
   return (
     <>
-      <ProgressBar progress={progress}></ProgressBar>
       <ThemedView style={styles.textContainer}>
         <ThemedView>
-          <ThemedText type='defaultSemiBold'>Vendidos: </ThemedText>
+          <ThemedText type="defaultSemiBold">Vendidos: </ThemedText>
           <ThemedText>{formatNumber(selectedItems)}</ThemedText>
         </ThemedView>
         <ThemedView>
@@ -66,6 +65,7 @@ export function Emision({
           <ThemedText style={{ textAlign: "right" }}>{formatNumber(totalItems)}</ThemedText>
         </ThemedView>
       </ThemedView>
+      <ProgressBar progress={progress}></ProgressBar>
     </>
   );
 }

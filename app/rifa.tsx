@@ -1,17 +1,15 @@
-import Icon from '@expo/vector-icons/Ionicons';
 import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
 import React from "react";
-import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 import { Emision } from '@/components/Emision';
 import { ParallaxScrollView } from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { BoxButtonLink } from '@/components/ui/BoxButtonLink';
 import { Estrellas } from '@/components/ui/Estrellas';
 import { Fecha } from '@/components/ui/Fecha';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme.web';
 import { fetchCover } from '@/lib/cover';
 import { fetchRifa } from '@/lib/rifa';
 import { fetchSettings } from '@/lib/setting';
@@ -22,7 +20,6 @@ type Params = {
 
 export default function RifaScreen() {
   const { rifaId } = useLocalSearchParams<Params>();
-  const colorScheme = useColorScheme();
 
   const rifaQuery = useQuery({
     queryKey: ['rifa', rifaId],
@@ -45,16 +42,12 @@ export default function RifaScreen() {
     enabled: !!sorteoId
   });
 
-  const openURL = (url?: string): void => {
-    if (!url) {
-      console.warn("La URL está vacía o no está definida.");
-      return;
-    }
-
-    Linking.openURL(url).catch((err) => {
-      console.error("No se pudo abrir la URL:", err);
-    });
-  };
+  const links = [
+    { icon: "globe-outline", text: "Website", url: `${rifaQuery.data?.website}s${coverQuery.data?.link}-lista` },
+    { icon: "logo-facebook", text: "Facebook", url: rifaQuery.data?.facebook },
+    { icon: "checkmark-circle", text: "Verificador", url: `${rifaQuery.data?.website}s${coverQuery.data?.link}-verificador` },
+    { icon: "cash", text: "Pagos", url: `${rifaQuery.data?.website}pagos` },
+  ];
 
   return (
     <ParallaxScrollView
@@ -74,52 +67,27 @@ export default function RifaScreen() {
       </ThemedView>
       <ThemedView style={styles.detailsContainer}>
         <ThemedView>
-          <ThemedText type='subtitle'>Sorteo</ThemedText>
+          <ThemedText type='defaultSemiBold'>Sorteo</ThemedText>
           <ThemedText>S{coverQuery.data?.link}</ThemedText>
         </ThemedView>
         <ThemedView>
-          <ThemedText type='subtitle' style={{ textAlign: "right" }}>Fecha</ThemedText>
+          <ThemedText type='defaultSemiBold' style={{ textAlign: "right" }}>Fecha</ThemedText>
           <Fecha fecha={settingsQuery.data?.raffleDate} />
         </ThemedView>
       </ThemedView>
       {rifaQuery.isFetched &&
-        <>
-          <Emision api={api} rifaId={rifaId} sorteoId={sorteoId} />
-          <ThemedView style={styles.containerBoxes}>
-            <TouchableOpacity
-              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
-              onPress={() => { openURL(rifaQuery.data?.website + `s${sorteoId}-lista`) }}
-            >
-              <Icon name="globe-outline" size={35} color={Colors[colorScheme ?? 'light'].text} />
-              <ThemedText>WebSite</ThemedText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
-              onPress={() => { openURL(rifaQuery.data?.facebook) }}
-            >
-              <Icon name="logo-facebook" size={35} color={Colors[colorScheme ?? 'light'].text} />
-              <ThemedText>Facebook</ThemedText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
-              onPress={() => { openURL(rifaQuery.data?.website + `s${sorteoId}-verificador`) }}
-            >
-              <Icon name="checkmark-circle" size={35} color={Colors[colorScheme ?? 'light'].text} />
-              <ThemedText>Verificador</ThemedText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[{ backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor, }, styles.box]}
-              onPress={() => { openURL(rifaQuery.data?.website + "pagos") }}
-            >
-              <Icon name="cash" size={35} color={Colors[colorScheme ?? 'light'].text} />
-              <ThemedText>Pagos</ThemedText>
-            </TouchableOpacity>
-          </ThemedView>
-        </>
+        <Emision api={api} rifaId={rifaId} sorteoId={sorteoId} />
       }
+      <ThemedView style={styles.containerBoxes}>
+        {links.map((item, index) => (
+          <BoxButtonLink
+            key={index}
+            iconName={item.icon}
+            href={item.url}>
+            {item.text}
+          </BoxButtonLink>
+        ))}
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -153,17 +121,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flex: 1,
-  },
-  box: {
-    width: 85,
-    height: 85,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 5,
   },
   text: {
     fontSize: 16,
