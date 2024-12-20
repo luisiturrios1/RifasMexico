@@ -18,17 +18,16 @@ type Props = {
  * @param rifaId {string} 
  * @param userId {string} 
  * 
- * @returns {Promise<Rating>}.
+ * @returns {Promise<Rating|null>}.
  */
-export const getRating = async ({ rifaId, userId }: Omit<Props, 'rating'>): Promise<Rating | undefined> => {
-  if (!rifaId || !userId) { return }
+export const getRating = async ({ rifaId, userId }: Omit<Props, 'rating'>): Promise<Rating | null> => {
   const ratingDoc = await firestore()
     .collection('rifas')
     .doc(rifaId)
     .collection('ratings')
     .doc(userId)
     .get();
-  return ratingDoc.data() as Rating;
+  return ratingDoc.exists ? ratingDoc.data() as Rating : null;
 };
 
 /**

@@ -3,10 +3,10 @@ import { ThemedView } from '@/components/ThemedView';
 import { Fecha } from '@/components/ui/Fecha';
 import { getRating, Rating, saveRating } from "@/lib/rating";
 import Icon from '@expo/vector-icons/MaterialIcons';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 type Params = {
   rifaId: string;
@@ -14,48 +14,45 @@ type Params = {
 };
 
 export default function Modal() {
-  const firebaseUser = auth().currentUser;
   const { rifaId, nombreRifa } = useLocalSearchParams<Params>();
   const router = useRouter();
   const { height } = useWindowDimensions();
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
-  const [reatingVal, setReatingVal] = useState<number>(0);
-  const [reating, setReating] = useState<Rating>();
+  const [userId, setUserId] = useState<string>();
+  const [rating, setRating] = useState<Rating>();
 
   useEffect(() => {
-    if (!firebaseUser) {
-      auth()
-        .signInAnonymously()
-        .then((userCredential) => {
-          setUser(userCredential.user);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      return;
+    const load = async () => {
+      let currentUser = auth().currentUser;
+
+      // Si no hay usuario, autenticar como anónimo
+      if (!currentUser) {
+        const userCredential = await auth().signInAnonymously();
+        currentUser = userCredential.user;
+        setUserId(currentUser.uid);
+        return
+      }
+
+      setUserId(currentUser.uid);
+
+      // Si el usuario existe trata de obtener la calificacion
+      const rating = await getRating({ rifaId, userId: currentUser.uid });
+      if (rating) {
+        setRating(rating);
+      }
     }
-    setUser(firebaseUser);
-  }, [firebaseUser]);
 
-  useEffect(() => {
-    getRating({ rifaId, userId: user?.uid }).then((rating) => {
-      if (!rating) { return }
-      setReatingVal(rating?.rating || 0);
-      setReating(rating);
-    });
-  }, [firebaseUser, user?.uid]);
+    load();
+  }, []);
 
   const handleStarPress = async (star: number) => {
-    if (!user) {
+    if (!userId) {
       return;
     }
-    saveRating({ rifaId, userId: user.uid, rating: star }).then((rating) => {
-      setReatingVal(star);
-      setReating(rating);
-      alert('Gracias por tu calificación');
+    setRating({ ...rating, rating: star });
+    saveRating({ rifaId, userId: userId, rating: star }).then((rating) => {
       setTimeout(() => {
         router.back();
-      }, 1000);
+      }, 750);
     });
   };
 
@@ -65,25 +62,28 @@ export default function Modal() {
       <View style={[styles.content, { height: height / 3 }]}>
         <ThemedView style={styles.container}>
           <ThemedText>
-            Como calificas a
+            Califica a
             <ThemedText type="defaultSemiBold"> {nombreRifa}</ThemedText>
           </ThemedText>
           <ThemedView style={styles.estrellasContainer}>
             {[1, 2, 3, 4, 5].map((star) => (
-              <TouchableOpacity key={star} onPress={() => handleStarPress(star)}>
+              <TouchableOpacity
+                key={star}
+                onPress={() => handleStarPress(star)}
+              >
                 <Icon
-                  name={star <= reatingVal ? 'star' : 'star-border'}
+                  name={star <= (rating?.rating ?? 0) ? 'star' : 'star-border'}
                   size={50}
                   style={styles.estrella}
                 />
               </TouchableOpacity>
             ))}
           </ThemedView>
-          {reating && (
+          {rating?.fecha && (
             <ThemedText type="small">
               Calificado el {" "}
               <Fecha
-                fecha={reating.fecha.toDate()}
+                fecha={rating?.fecha.toDate()}
                 format="dddd, D [de] MMMM [de] YYYY, HH:mm"
                 style={styles.smallText}
               />
