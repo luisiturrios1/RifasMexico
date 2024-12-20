@@ -46,10 +46,6 @@ export default function Modal() {
   }, [firebaseUser, user?.uid]);
 
   const handleStarPress = async (star: number) => {
-    if (star == reatingVal) {
-      router.back();
-      return;
-    }
     if (!user) {
       return;
     }
