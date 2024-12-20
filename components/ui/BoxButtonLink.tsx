@@ -18,7 +18,6 @@ export const BoxButtonLink: React.FC<Props> = ({ iconName, children, href }) => 
   const iconColor = Colors[colorScheme ?? 'light'].text;
 
   if (!href) {
-    console.warn("Se intentó renderear BoxButtonLink sin un href válido.");
     return null;
   }
 

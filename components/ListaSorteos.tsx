@@ -18,7 +18,7 @@ export function ListaSorteos() {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
-  }, []);
+  }, [refetch]);
 
   return (
     <FlatList

@@ -9,15 +9,16 @@ moment.locale('es');
 
 interface FechaProps {
   fecha?: string;
+  format?: string;
   style?: TextStyle | TextStyle[];
 }
 
-export const Fecha = ({ fecha, style = {} }: FechaProps) => {
+export const Fecha = ({ fecha, format = "D [de] MMMM", style = {} }: FechaProps) => {
   if (!fecha || !moment(fecha).isValid()) {
     return <ThemedText style={style}>...</ThemedText>;
   }
 
-  const formattedDate = moment(fecha).format("D [de] MMMM");
+  const formattedDate = moment(fecha).format(format);
 
   return <ThemedText style={style}>{formattedDate}</ThemedText>;
 };

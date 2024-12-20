@@ -1,8 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
-import { useLocalSearchParams } from 'expo-router/build/hooks';
-import React from "react";
-import { Image, StyleSheet } from 'react-native';
-
 import { Emision } from '@/components/Emision';
 import { ParallaxScrollView } from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -13,6 +8,10 @@ import { Fecha } from '@/components/ui/Fecha';
 import { fetchCover } from '@/lib/cover';
 import { fetchRifa } from '@/lib/rifa';
 import { fetchSettings } from '@/lib/setting';
+import { useQuery } from '@tanstack/react-query';
+import { Link, useLocalSearchParams } from 'expo-router';
+import React from "react";
+import { Image, StyleSheet } from 'react-native';
 
 type Params = {
   rifaId: string;
@@ -62,7 +61,14 @@ export default function RifaScreen() {
         <Image source={{ uri: rifaQuery.data?.logo }} style={styles.avatar} />
         <ThemedView>
           <ThemedText type="subtitle">{rifaQuery.data?.nombre}</ThemedText>
-          <Estrellas rating={rifaQuery.data?.rating} reviews={rifaQuery.data?.reviews} />
+          <Link
+            href={{
+              pathname: '/rifa/modal',
+              params: { rifaId: rifaId, nombreRifa: rifaQuery.data?.nombre }
+            }}
+          >
+            <Estrellas rating={rifaQuery.data?.rating} reviews={rifaQuery.data?.reviews} />
+          </Link>
         </ThemedView>
       </ThemedView>
       <ThemedView style={styles.detailsContainer}>
@@ -75,7 +81,8 @@ export default function RifaScreen() {
           <Fecha fecha={settingsQuery.data?.raffleDate} />
         </ThemedView>
       </ThemedView>
-      {rifaQuery.isFetched &&
+      {
+        rifaQuery.isFetched &&
         <Emision api={api} rifaId={rifaId} sorteoId={sorteoId} />
       }
       <ThemedView style={styles.containerBoxes}>
@@ -88,7 +95,7 @@ export default function RifaScreen() {
           </BoxButtonLink>
         ))}
       </ThemedView>
-    </ParallaxScrollView>
+    </ParallaxScrollView >
   );
 }
 
