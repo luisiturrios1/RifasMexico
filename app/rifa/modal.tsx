@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    padding: 16,
+    paddingVertical: 16,
   },
   container: {
     flex: 1,
