@@ -9,7 +9,7 @@ import { fetchCover } from '@/lib/cover';
 import { fetchRifa } from '@/lib/rifa';
 import { fetchSettings } from '@/lib/setting';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams, useNavigation } from 'expo-router';
 import React from "react";
 import { Image, StyleSheet } from 'react-native';
 
@@ -19,6 +19,7 @@ type Params = {
 
 export default function RifaScreen() {
   const { rifaId } = useLocalSearchParams<Params>();
+  const navigation = useNavigation();
 
   const rifaQuery = useQuery({
     queryKey: ['rifa', rifaId],
@@ -40,6 +41,10 @@ export default function RifaScreen() {
     queryFn: async () => fetchSettings(api, sorteoId),
     enabled: !!sorteoId
   });
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ title: rifaQuery.data?.nombre });
+  }, [navigation, rifaQuery.data]);
 
   const links = [
     { icon: "globe-outline", text: "Website", url: `${rifaQuery.data?.website}s${coverQuery.data?.link}-lista` },
@@ -95,7 +100,7 @@ export default function RifaScreen() {
           </BoxButtonLink>
         ))}
       </ThemedView>
-    </ParallaxScrollView >
+    </ParallaxScrollView>
   );
 }
 
