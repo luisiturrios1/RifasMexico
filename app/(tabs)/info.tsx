@@ -25,6 +25,20 @@ export default function InfoScreen() {
       <ThemedText>
         Rifas México es la app ideal para seguir de cerca los sorteos más emocionantes de México. Mantente al día con los eventos, consulta los detalles de cada rifa, lleva un registro de tus participaciones y comparte tu experiencia dejando reseñas de los sorteos. ¡No te pierdas la oportunidad de ganar y ayudar a otros con tus opiniones!
       </ThemedText>
+      <Collapsible title="Quienes somos">
+        <ThemedText>
+          Somos un equipo de desarrolladores independientes comprometidos con brindar herramientas útiles y transparentes para los usuarios.
+        </ThemedText>
+        <ThemedText>
+          En esta aplicación, puedes realizar el seguimiento de rifas organizadas por terceros.
+        </ThemedText>
+        <ThemedText>
+          Es importante destacar que no vendemos boletos ni asumimos responsabilidad sobre ninguna rifa.
+        </ThemedText>
+        <ThemedText>
+          Nuestra misión es empoderar a los consumidores, proporcionando herramientas que les permitan evaluar la legalidad y confiabilidad de cada organizador de rifas. ¡Gracias por confiar en nosotros!
+        </ThemedText>
+      </Collapsible>
       <Collapsible title="Registrar tu rifa en Rifas México">
         <ThemedText>
           ¿Quieres que tu rifa aparezca en Rifas México? Es muy fácil. Solo envía un correo electrónico con la información completa de tu rifa:
@@ -40,20 +54,6 @@ export default function InfoScreen() {
         <Link href="mailto:m7yh56bzps@privaterelay.appleid.com">
           <ThemedText type="link">Correo Electronico</ThemedText>
         </Link>
-      </Collapsible>
-      <Collapsible title="Quienes somos">
-        <ThemedText>
-          Somos un equipo de desarrolladores independientes comprometidos con brindar herramientas útiles y transparentes para los usuarios.
-        </ThemedText>
-        <ThemedText>
-          En esta aplicación, puedes realizar el seguimiento de rifas organizadas por terceros.
-        </ThemedText>
-        <ThemedText>
-          Es importante destacar que no vendemos boletos ni asumimos responsabilidad sobre ninguna rifa.
-        </ThemedText>
-        <ThemedText>
-          Nuestra misión es empoderar a los consumidores, proporcionando herramientas que les permitan evaluar la legalidad y confiabilidad de cada organizador de rifas. ¡Gracias por confiar en nosotros!
-        </ThemedText>
       </Collapsible>
     </TabParallaxScrollView>
   );
