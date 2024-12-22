@@ -22,7 +22,7 @@ export const ProgressBar = function ({
       style={
         [
           styles.container,
-          { height },
+          { height, backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor },
           style,
         ]}
     >
