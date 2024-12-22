@@ -1,10 +1,3 @@
-import {
-  useQuery
-} from '@tanstack/react-query';
-import { router } from "expo-router";
-import React from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Estrellas } from '@/components/ui/Estrellas';
@@ -12,27 +5,14 @@ import { Fecha } from '@/components/ui/Fecha';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { fetchCover } from '@/lib/cover';
 import { Rifa } from '@/lib/rifa';
-import { fetchSettings } from '@/lib/setting';
+import { router } from "expo-router";
+import React from 'react';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 
 export function ListaSorteosItem({ item }: { item: Rifa }) {
-
   const colorScheme = useColorScheme();
-
-  const coverQuery = useQuery({
-    queryKey: ['rifa', 'cover', item.id],
-    queryFn: async () => fetchCover(item.api),
-  });
-
-  const sorteoId = coverQuery.data?.link;
-
-  const settingsQuery = useQuery({
-    queryKey: ['rifa', 'settings', item.id, sorteoId],
-    queryFn: async () => fetchSettings(item.api, sorteoId),
-    enabled: !!sorteoId
-  });
 
   const onPress = () => {
     router.push({ pathname: "/rifa", params: { rifaId: item.id } });
@@ -46,15 +26,11 @@ export function ListaSorteosItem({ item }: { item: Rifa }) {
           <ThemedView style={styles.header}>
             <ThemedText style={styles.name}>{item.nombre}</ThemedText>
           </ThemedView>
-          {coverQuery.isFetched &&
-            <>
-              <Estrellas rating={item.rating} reviews={item.reviews} />
-              {settingsQuery.isFetched && <Fecha fecha={settingsQuery.data?.raffleDate} />}
-            </>
-          }
+          <Estrellas rating={item.rating} reviews={item.reviews} />
+          <Fecha fecha={item.raffleDate.toDate()} />
         </ThemedView>
         <ThemedView>
-          {coverQuery.isFetched && <Image source={{ uri: coverQuery.data?.imageUrl }} style={styles.cover} />}
+          <Image source={{ uri: item.imageUrl }} style={styles.cover} />
         </ThemedView>
         <ThemedView style={styles.deatilIcon}>
           <IconSymbol size={15} name="chevron.right" color={Colors[colorScheme ?? 'light'].icon} />

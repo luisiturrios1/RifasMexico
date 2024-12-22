@@ -1,15 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-
 import { ListaSorteosItem } from '@/components/ListaSorteosItem';
 import { fetchRifas } from '@/lib/rifas';
+import { useQuery } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 
 
 export function ListaSorteos() {
   const [isRefreshing, setRefreshing] = useState(false);
 
-  const { data, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['rifa'],
     queryFn: fetchRifas
   });
@@ -19,6 +18,10 @@ export function ListaSorteos() {
     await refetch();
     setRefreshing(false);
   }, [refetch]);
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <FlatList

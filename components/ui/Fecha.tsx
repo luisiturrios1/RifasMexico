@@ -1,14 +1,13 @@
+import { ThemedText } from "@/components/ThemedText";
 import moment from 'moment';
 import 'moment/locale/es';
 import { TextStyle } from "react-native";
-
-import { ThemedText } from "@/components/ThemedText";
 
 // Configura el idioma globalmente
 moment.locale('es');
 
 interface FechaProps {
-  fecha?: string;
+  fecha?: string | Date | undefined;
   format?: string;
   style?: TextStyle | TextStyle[];
 }

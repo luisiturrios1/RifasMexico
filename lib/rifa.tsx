@@ -1,4 +1,4 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 export type Rifa = {
   id: string;
@@ -10,6 +10,10 @@ export type Rifa = {
   sitio: string;
   rating: number;
   reviews: number;
+  autoUpdate: boolean;
+  raffleDate: FirebaseFirestoreTypes.Timestamp;
+  sorteoId: number;
+  imageUrl: string;
 };
 
 /**

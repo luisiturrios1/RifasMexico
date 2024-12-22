@@ -5,9 +5,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { BoxButtonLink } from '@/components/ui/BoxButtonLink';
 import { Estrellas } from '@/components/ui/Estrellas';
 import { Fecha } from '@/components/ui/Fecha';
-import { fetchCover } from '@/lib/cover';
 import { fetchRifa } from '@/lib/rifa';
-import { fetchSettings } from '@/lib/setting';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocalSearchParams, useNavigation } from 'expo-router';
 import React from "react";
@@ -28,28 +26,14 @@ export default function RifaScreen() {
 
   const api = rifaQuery.data?.api;
 
-  const coverQuery = useQuery({
-    enabled: !!api,
-    queryKey: ['rifa', 'cover', rifaId],
-    queryFn: async () => fetchCover(api),
-  });
-
-  const sorteoId = coverQuery.data?.link;
-
-  const settingsQuery = useQuery({
-    queryKey: ['rifa', 'settings', rifaId, sorteoId],
-    queryFn: async () => fetchSettings(api, sorteoId),
-    enabled: !!sorteoId
-  });
-
   React.useLayoutEffect(() => {
     navigation.setOptions({ title: rifaQuery.data?.nombre });
   }, [navigation, rifaQuery.data]);
 
   const links = [
-    { icon: "globe-outline", text: "Website", url: `${rifaQuery.data?.website}s${coverQuery.data?.link}-lista` },
+    { icon: "globe-outline", text: "Website", url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-lista` },
     { icon: "logo-facebook", text: "Facebook", url: rifaQuery.data?.facebook },
-    { icon: "checkmark-circle", text: "Verificador", url: `${rifaQuery.data?.website}s${coverQuery.data?.link}-verificador` },
+    { icon: "checkmark-circle", text: "Verificador", url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-verificador` },
     { icon: "cash", text: "Pagos", url: `${rifaQuery.data?.website}pagos` },
   ];
 
@@ -58,7 +42,7 @@ export default function RifaScreen() {
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
         <Image
-          source={{ uri: coverQuery.data?.imageUrl }}
+          source={{ uri: rifaQuery.data?.imageUrl }}
           style={styles.headerImage}
         />
       }>
@@ -79,16 +63,16 @@ export default function RifaScreen() {
       <ThemedView style={styles.detailsContainer}>
         <ThemedView>
           <ThemedText type='defaultSemiBold'>Sorteo</ThemedText>
-          <ThemedText>S{coverQuery.data?.link}</ThemedText>
+          <ThemedText>S{rifaQuery.data?.sorteoId}</ThemedText>
         </ThemedView>
         <ThemedView>
           <ThemedText type='defaultSemiBold' style={{ textAlign: "right" }}>Fecha</ThemedText>
-          <Fecha fecha={settingsQuery.data?.raffleDate} />
+          <Fecha fecha={rifaQuery.data?.raffleDate.toDate()} />
         </ThemedView>
       </ThemedView>
       {
         rifaQuery.isFetched &&
-        <Emision api={api} rifaId={rifaId} sorteoId={sorteoId} />
+        <Emision api={api} rifaId={rifaId} sorteoId={rifaQuery.data?.sorteoId} />
       }
       <ThemedView style={styles.containerBoxes}>
         {links.map((item, index) => (

@@ -8,7 +8,11 @@ import { Rifa } from "@/lib/rifa";
  * @returns {Promise<Rifa[]>} Lista de rifas.
  */
 export const fetchRifas = async (): Promise<Rifa[]> => {
-  const querySnapshot = await firestore().collection('rifas').get();
+  const querySnapshot = await firestore()
+    .collection('rifas')
+    .orderBy("raffleDate", "desc")
+    .orderBy("rating", "desc")
+    .get();
 
   const rifas: Rifa[] = querySnapshot.docs.map(doc => ({
     id: doc.id,
