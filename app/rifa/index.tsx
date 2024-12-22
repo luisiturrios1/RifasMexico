@@ -20,7 +20,7 @@ export default function RifaScreen() {
   const navigation = useNavigation();
 
   const rifaQuery = useQuery({
-    queryKey: ['rifa', rifaId],
+    queryKey: ['rifas', rifaId],
     queryFn: async () => fetchRifa(rifaId),
   });
 
@@ -28,13 +28,13 @@ export default function RifaScreen() {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({ title: rifaQuery.data?.nombre });
-  }, [navigation, rifaQuery.data]);
+  }, [navigation, rifaQuery.data?.nombre]);
 
   const links = [
-    { icon: "globe-outline", text: "Website", url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-lista` },
     { icon: "logo-facebook", text: "Facebook", url: rifaQuery.data?.facebook },
     { icon: "checkmark-circle", text: "Verificador", url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-verificador` },
     { icon: "cash", text: "Pagos", url: `${rifaQuery.data?.website}pagos` },
+    { icon: "dice", text: "Jugar", url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-lista` },
   ];
 
   return (
@@ -71,7 +71,7 @@ export default function RifaScreen() {
         </ThemedView>
       </ThemedView>
       {
-        rifaQuery.isFetched &&
+        rifaQuery.isSuccess &&
         <Emision api={api} rifaId={rifaId} sorteoId={rifaQuery.data?.sorteoId} />
       }
       <ThemedView style={styles.containerBoxes}>

@@ -9,7 +9,7 @@ export function ListaSorteos() {
   const [isRefreshing, setRefreshing] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['rifa'],
+    queryKey: ['rifas'],
     queryFn: fetchRifas
   });
 

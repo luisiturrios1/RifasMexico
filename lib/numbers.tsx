@@ -1,9 +1,11 @@
-export type NumbersResponse = {
-  "statusCode": string;
-  "body": {
-    number: string;
-    selectedNumber: string;
-  }[];
+type NumberItem = {
+  number: string;
+  selectedNumber: boolean;
+};
+
+export type ApiResponse = {
+  statusCode: number;
+  body: NumberItem[];
 };
 
 /**
@@ -12,7 +14,7 @@ export type NumbersResponse = {
  * @param sorteoId {string} sorteoId.
  * @returns {Promise<NumbersResponse>} 
  */
-export const fetchNumbers = async (api: string | undefined, sorteoId: string | undefined): Promise<NumbersResponse> => {
+export const fetchNumbers = async (api: string | undefined, sorteoId: string | undefined): Promise<ApiResponse> => {
   const response = await fetch(
     `${api}/numbers?collection=S${sorteoId}`
   );
@@ -21,5 +23,11 @@ export const fetchNumbers = async (api: string | undefined, sorteoId: string | u
     throw new Error('Network response was not ok')
   }
 
-  return await response.json();
+  const data: ApiResponse = await response.json();
+
+  if (data.statusCode !== 200) {
+    throw new Error('Error fetching numbers');
+  }
+
+  return data;
 };

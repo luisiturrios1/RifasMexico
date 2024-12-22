@@ -1,55 +1,43 @@
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { ProgressBar } from '@/components/ui/ProgressBar';
+import { ApiResponse, fetchNumbers } from '@/lib/numbers';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { ProgressBar } from '@/components/ui/ProgressBar';
-
-type NumberItem = {
-  number: string;
-  selectedNumber: boolean;
-};
-
-type ApiResponse = {
-  statusCode: number;
-  body: NumberItem[];
-};
-
-interface EmisionProps {
+interface Props {
   api: string;
   rifaId: string;
   sorteoId: string;
 }
 
-export function Emision({
-  api,
-  rifaId,
-  sorteoId,
-}: EmisionProps) {
+export function Emision({ api, rifaId, sorteoId }: Props) {
 
-  const { isLoading, isError, data } = useQuery<ApiResponse>({
-    queryKey: ['rifa', 'numbers', rifaId, sorteoId],
-    queryFn: async () => {
-      const response = await fetch(`${api}/numbers?collection=S${sorteoId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      return response.json();
-    },
+  const { isLoading, data, isError, error } = useQuery<ApiResponse>({
+    queryKey: ['rifas', rifaId, 'numbers', sorteoId],
+    queryFn: () => fetchNumbers(api, sorteoId),
   });
 
-  if (isLoading || !data?.body) {
-    return <ActivityIndicator />;
+  if (isLoading) {
+    return (
+      <ThemedView>
+        <ActivityIndicator />
+      </ThemedView>
+    );
   }
 
   if (isError) {
-    return <ThemedText>Error</ThemedText>;
+    return (
+      <ThemedView>
+        <ThemedText>Error: {error.message}</ThemedText>
+      </ThemedView>
+    );
   }
 
-  const totalItems = data.body.length;
-  const selectedItems = data.body.filter((item) => item.selectedNumber).length;
-  const progress = (selectedItems / totalItems) * 100;
+  const totalItems = data?.body.length ?? 0;
+  const selectedItems = data?.body.filter((item) => item.selectedNumber).length ?? 0;
+  const progress = totalItems > 0 ? (selectedItems / totalItems) * 100 : 0;
 
   const formatNumber = (num: number) => new Intl.NumberFormat('es-MX').format(num);
 
