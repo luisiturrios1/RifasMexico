@@ -48,8 +48,8 @@ export const BoxButtonLink: React.FC<Props> = ({ iconName, children, href }) => 
 
 const styles = StyleSheet.create({
   box: {
-    width: 85,
-    height: 85,
+    width: 75,
+    height: 75,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",

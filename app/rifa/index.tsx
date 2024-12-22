@@ -30,11 +30,25 @@ export default function RifaScreen() {
     navigation.setOptions({ title: rifaQuery.data?.nombre });
   }, [navigation, rifaQuery.data?.nombre]);
 
+  const utm = "?utm_source=rifasmexico&utm_medium=app&utm_campaign=organic";
+
   const links = [
-    { icon: "logo-facebook", text: "Facebook", url: rifaQuery.data?.facebook },
-    { icon: "checkmark-circle", text: "Verificador", url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-verificador` },
-    { icon: "cash", text: "Pagos", url: `${rifaQuery.data?.website}pagos` },
-    { icon: "dice", text: "Jugar", url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-lista` },
+    {
+      icon: "logo-facebook", text: "Facebook",
+      url: `${rifaQuery.data?.facebook}${utm}`
+    },
+    {
+      icon: "checkmark-circle", text: "Verificar",
+      url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-verificador${utm}`
+    },
+    {
+      icon: "dice", text: "Jugar",
+      url: `${rifaQuery.data?.website}s${rifaQuery.data?.sorteoId}-lista${utm}`
+    },
+    {
+      icon: "cash", text: "Pagos",
+      url: `${rifaQuery.data?.website}pagos${utm}`
+    },
   ];
 
   return (
@@ -60,6 +74,16 @@ export default function RifaScreen() {
           </Link>
         </ThemedView>
       </ThemedView>
+      <ThemedView style={styles.containerBoxes}>
+        {links.map((item, index) => (
+          <BoxButtonLink
+            key={index}
+            iconName={item.icon}
+            href={item.url}>
+            {item.text}
+          </BoxButtonLink>
+        ))}
+      </ThemedView>
       <ThemedView style={styles.detailsContainer}>
         <ThemedView>
           <ThemedText type='defaultSemiBold'>Sorteo</ThemedText>
@@ -74,16 +98,6 @@ export default function RifaScreen() {
         rifaQuery.isSuccess &&
         <Emision api={api} rifaId={rifaId} sorteoId={rifaQuery.data?.sorteoId} />
       }
-      <ThemedView style={styles.containerBoxes}>
-        {links.map((item, index) => (
-          <BoxButtonLink
-            key={index}
-            iconName={item.icon}
-            href={item.url}>
-            {item.text}
-          </BoxButtonLink>
-        ))}
-      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -99,7 +113,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 5,
+    paddingTop: 5,
   },
   avatar: {
     width: 60,
@@ -112,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   containerBoxes: {
-    marginTop: 10,
+    marginTop: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

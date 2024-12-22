@@ -34,13 +34,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="newspaper.fill" color={color} />,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="boletos"
         options={{
           title: 'Boletos',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="rectangle.fill.on.rectangle.angled.fill" color={color} />,
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="info"
         options={{

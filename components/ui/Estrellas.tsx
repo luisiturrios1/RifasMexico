@@ -1,18 +1,16 @@
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { formatNumber } from '@/lib/formatNumber';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { StyleSheet } from "react-native";
 
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
 
 interface EstrellasProps {
   rating: number | undefined;
   reviews: number | undefined;
 }
 
-export const Estrellas = function ({
-  rating = 0,
-  reviews = 0,
-}: EstrellasProps) {
+export const Estrellas = function ({ rating = 0, reviews = 0, }: EstrellasProps) {
   const totalStars = 5;
   const fullStars = Math.floor(rating);
   const halfStar = rating - fullStars >= 0.5;
@@ -30,7 +28,7 @@ export const Estrellas = function ({
       {Array.from({ length: emptyStars }).map((_, index) => (
         <Icon key={`empty-${index}`} name="star-border" size={20} color="#fdd835" />
       ))}
-      <ThemedText style={styles.reviewText}>({reviews})</ThemedText>
+      <ThemedText style={styles.reviewText}>({formatNumber(reviews)})</ThemedText>
     </ThemedView>
   );
 };

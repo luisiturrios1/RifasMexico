@@ -8,11 +8,12 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Rifa } from '@/lib/rifa';
 import { router } from "expo-router";
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 
 
 export function ListaSorteosItem({ item }: { item: Rifa }) {
   const colorScheme = useColorScheme();
+  const { width } = useWindowDimensions();
 
   const onPress = () => {
     router.push({ pathname: "/rifa", params: { rifaId: item.id } });
@@ -21,7 +22,7 @@ export function ListaSorteosItem({ item }: { item: Rifa }) {
   return (
     <TouchableOpacity onPress={onPress}>
       <ThemedView style={styles.item}>
-        <Image source={{ uri: item.logo }} style={styles.avatar} />
+        {width > 380 && <Image source={{ uri: item.logo }} style={styles.avatar} />}
         <ThemedView style={styles.content}>
           <ThemedView style={styles.header}>
             <ThemedText style={styles.name}>{item.nombre}</ThemedText>

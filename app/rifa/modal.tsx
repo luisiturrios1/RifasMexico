@@ -6,7 +6,7 @@ import Icon from '@expo/vector-icons/MaterialIcons';
 import auth from '@react-native-firebase/auth';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { Pressable, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 type Params = {
   rifaId: string;

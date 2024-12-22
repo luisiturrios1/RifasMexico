@@ -1,6 +1,7 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ProgressBar } from '@/components/ui/ProgressBar';
+import { formatNumber } from '@/lib/formatNumber';
 import { ApiResponse, fetchNumbers } from '@/lib/numbers';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
@@ -38,8 +39,6 @@ export function Emision({ api, rifaId, sorteoId }: Props) {
   const totalItems = data?.body.length ?? 0;
   const selectedItems = data?.body.filter((item) => item.selectedNumber).length ?? 0;
   const progress = totalItems > 0 ? (selectedItems / totalItems) * 100 : 0;
-
-  const formatNumber = (num: number) => new Intl.NumberFormat('es-MX').format(num);
 
   return (
     <>
