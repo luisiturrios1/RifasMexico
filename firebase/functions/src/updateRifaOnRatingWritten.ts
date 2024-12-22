@@ -1,12 +1,10 @@
-const logger = require("firebase-functions/logger");
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+import * as admin from "firebase-admin";
+import * as functions from "firebase-functions";
+import * as logger from "firebase-functions/logger";
 
-admin.initializeApp();
-
-exports.actializarRifa = functions.firestore.onDocumentWritten(
+export const updateRifaOnRatingWritten = functions.firestore.onDocumentWritten(
   "rifas/{rifaId}/ratings/{ratingId}",
-  async (event) => {
+  async (event): Promise<void> => {
     const rifaId = event.params.rifaId;
     const beforeData = event.data?.before.data();
     const afterData = event.data?.after.data();
@@ -32,6 +30,11 @@ exports.actializarRifa = functions.firestore.onDocumentWritten(
       const rifaDoc = await rifaRef.get();
       const rifaData = rifaDoc.data();
 
+      if (!rifaData) {
+        logger.error(`La rifa ${rifaId} no existe`);
+        return;
+      }
+
       const currentRating = rifaData.rating || 0;
       const currentReviews = rifaData.reviews || 0;
       const newTotalReviews = currentReviews + ratingCountChange;
@@ -45,12 +48,9 @@ exports.actializarRifa = functions.firestore.onDocumentWritten(
         rating: newRating,
         reviews: Math.max(newTotalReviews, 0),
       });
-
       logger.log(`Rifa ${rifaId} actualizada`);
     } catch (error) {
       logger.error(`Error al actualizar la rifa ${rifaId}:`, error);
     }
-
-    return null;
   }
 );
