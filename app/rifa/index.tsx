@@ -91,7 +91,10 @@ export default function RifaScreen() {
         </ThemedView>
         <ThemedView>
           <ThemedText type='defaultSemiBold' style={{ textAlign: "right" }}>Fecha</ThemedText>
-          <Fecha fecha={rifaQuery.data?.raffleDate.toDate()} />
+          <Fecha
+            fecha={rifaQuery.data?.raffleDate?.toDate()}
+            style={{ textAlign: "right" }}
+          />
         </ThemedView>
       </ThemedView>
       {

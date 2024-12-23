@@ -1,4 +1,4 @@
-API="https://lcqj9ixmid.execute-api.us-west-1.amazonaws.com/prod"
+API="https://kwgab2nlnk.execute-api.us-east-2.amazonaws.com/prod"
 
 
 echo "Raffle Number:"

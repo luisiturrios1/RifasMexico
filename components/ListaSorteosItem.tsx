@@ -28,7 +28,7 @@ export function ListaSorteosItem({ item }: { item: Rifa }) {
             <ThemedText style={styles.name}>{item.nombre}</ThemedText>
           </ThemedView>
           <Estrellas rating={item.rating} reviews={item.reviews} />
-          <Fecha fecha={item.raffleDate.toDate()} />
+          <Fecha fecha={item.raffleDate?.toDate()} />
         </ThemedView>
         <ThemedView>
           <Image source={{ uri: item.imageUrl }} style={styles.cover} />
