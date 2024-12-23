@@ -17,7 +17,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.luisiturrios1.RifasMexico"
+      "package": "com.luisiturrios1.RifasMexico",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",

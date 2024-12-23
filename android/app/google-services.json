@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842839683419",
+    "project_id": "rifasmexico-dev",
+    "storage_bucket": "rifasmexico-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842839683419:android:c681b7ecd47a4d111b2a7e",
+        "android_client_info": {
+          "package_name": "com.luisiturrios1.RifasMexico"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhbsZYew_cTeqcU3s4rW1HJO_uSb7XjwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
