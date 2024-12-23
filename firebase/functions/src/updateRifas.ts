@@ -4,7 +4,7 @@ import * as functions from "firebase-functions";
 import * as logger from "firebase-functions/logger";
 
 export const updateRifas = functions.scheduler.onSchedule(
-  "every 1 hours",
+  "every 6 hours",
   async (event): Promise<void> => {
     const db = admin.firestore();
 
@@ -41,7 +41,8 @@ export const updateRifas = functions.scheduler.onSchedule(
           const coverResponse = await fetch(coverUrl);
           if (!coverResponse.ok) {
             logger.error(
-              `Error en /cover para ${doc.id}: ${coverResponse.statusText}`
+              `Error en /cover para ${doc.id}: ${coverResponse.statusText}: `,
+              coverResponse.body
             );
             return;
           }
