@@ -1,11 +1,11 @@
-import Icon from '@expo/vector-icons/Ionicons';
-import { openBrowserAsync } from 'expo-web-browser';
-import React, { PropsWithChildren } from "react";
-import { Linking, Platform, StyleSheet, TouchableOpacity } from "react-native";
-
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme.web';
+import Icon from '@expo/vector-icons/Ionicons';
+import analytics from '@react-native-firebase/analytics';
+import { openBrowserAsync } from 'expo-web-browser';
+import React, { PropsWithChildren } from "react";
+import { Linking, Platform, StyleSheet, TouchableOpacity } from "react-native";
 
 type Props = PropsWithChildren<{
   iconName: string;
@@ -23,6 +23,7 @@ export const BoxButtonLink: React.FC<Props> = ({ iconName, children, href }) => 
 
   const onPress = async () => {
     try {
+      await analytics().logEvent('open_link', { href });
       if (Platform.OS !== 'web') {
         await openBrowserAsync(href);
       } else {

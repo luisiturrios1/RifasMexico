@@ -3,6 +3,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { Fecha } from '@/components/ui/Fecha';
 import { getRating, Rating, saveRating } from "@/lib/rating";
 import Icon from '@expo/vector-icons/MaterialIcons';
+import analytics from '@react-native-firebase/analytics';
 import auth from '@react-native-firebase/auth';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -49,11 +50,9 @@ export default function Modal() {
       return;
     }
     setRating({ ...rating, rating: star });
-    saveRating({ rifaId, userId: userId, rating: star }).then((rating) => {
-      setTimeout(() => {
-        router.back();
-      }, 750);
-    });
+    await saveRating({ rifaId, userId: userId, rating: star });
+    await analytics().logEvent('rating', { rifaId, userId, rating: star });
+    router.back();
   };
 
   return (

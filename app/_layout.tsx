@@ -1,11 +1,12 @@
 import { useColorScheme } from '@/hooks/useColorScheme';
+import analytics from '@react-native-firebase/analytics';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import {
   QueryClient,
   QueryClientProvider
 } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -18,6 +19,8 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
+  const pathname = usePathname();
+  const params = useGlobalSearchParams();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -28,6 +31,16 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    const logScreenView = async () => {
+      await analytics().logScreenView({
+        screen_name: pathname,
+        screen_class: pathname,
+      });
+    };
+    logScreenView();
+  }, [pathname, params]);
 
   if (!loaded) {
     return null;
