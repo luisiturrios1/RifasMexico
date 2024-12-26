@@ -1,46 +1,45 @@
+import { useAnalytics } from '@/hooks/useAnalytics';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import analytics from '@react-native-firebase/analytics';
+import { useEvents } from '@/hooks/useEvents';
+import { useNotifications } from '@/hooks/useNotifications';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import {
   QueryClient,
   QueryClientProvider
 } from '@tanstack/react-query';
+import Constants from 'expo-constants';
 import { useFonts } from 'expo-font';
-import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+export default function Bootstrap() {
+  useEvents();
 
-// @tanstack/react-query
-const queryClient = new QueryClient();
+  if (Constants.isHeadless) {
+    return null;
+  }
+  return <RootLayout />
+}
 
-export default function RootLayout() {
-  const pathname = usePathname();
-  const params = useGlobalSearchParams();
+
+const RootLayout = () => {
+  const queryClient = new QueryClient();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+
+  useAnalytics();
+  useNotifications();
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
-
-  useEffect(() => {
-    const logScreenView = async () => {
-      await analytics().logScreenView({
-        screen_name: pathname,
-        screen_class: pathname,
-      });
-    };
-    logScreenView();
-  }, [pathname, params]);
 
   if (!loaded) {
     return null;
