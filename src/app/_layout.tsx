@@ -29,7 +29,7 @@ const RootLayout = () => {
   const queryClient = new QueryClient();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
   useAnalytics();

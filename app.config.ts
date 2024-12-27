@@ -1,0 +1,94 @@
+import { ExpoConfig, ConfigContext } from "expo/config";
+
+const IS_DEV = process.env.APP_VARIANT === "development";
+const IS_PREVIEW = process.env.APP_VARIANT === "preview";
+const IS_PRODUCTION = process.env.APP_VARIANT === "production";
+
+const getAppName = () => {
+  if (IS_PRODUCTION) {
+    return "Rifas Mexico";
+  }
+
+  if (IS_PREVIEW) {
+    return "Rifas Mexico (Preview)";
+  }
+
+  return "Rifas Mexico (Dev)";
+};
+
+const getBundleIdentifier = () => {
+  if (IS_PRODUCTION) {
+    return "com.iturriosdev.rifasmexico";
+  }
+
+  if (IS_PREVIEW) {
+    return "com.iturriosdev.rifasmexico.preview";
+  }
+
+  return "com.iturriosdev.rifasmexico.dev";
+};
+
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  ...config,
+  name: getAppName(),
+  slug: "RifasMexico",
+  version: "0.1.1",
+  orientation: "portrait",
+  icon: "./assets/images/icon.png",
+  scheme: "rifasmexico",
+  userInterfaceStyle: "automatic",
+  newArchEnabled: true,
+  ios: {
+    supportsTablet: true,
+    bundleIdentifier: getBundleIdentifier(),
+    googleServicesFile:
+      process.env.GOOGLE_SERVICES_PLIST ?? "./GoogleService-Info.plist",
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: "./assets/images/adaptive-icon.png",
+      backgroundColor: "#ffffff",
+    },
+    package: getBundleIdentifier(),
+    googleServicesFile:
+      process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
+  },
+  web: {
+    bundler: "metro",
+    output: "static",
+    favicon: "./assets/images/favicon.png",
+  },
+  plugins: [
+    "expo-router",
+    [
+      "expo-splash-screen",
+      {
+        image: "./assets/images/splash-icon.png",
+        imageWidth: 200,
+        resizeMode: "contain",
+        backgroundColor: "#ffffff",
+      },
+    ],
+    "@react-native-firebase/app",
+    "@react-native-firebase/auth",
+    [
+      "expo-build-properties",
+      {
+        ios: {
+          useFrameworks: "static",
+        },
+      },
+    ],
+  ],
+  experiments: {
+    typedRoutes: true,
+  },
+  extra: {
+    router: {
+      origin: false,
+    },
+    eas: {
+      projectId: "5de8a335-da75-4f3e-81ed-e34e9b806e2c",
+    },
+  },
+});

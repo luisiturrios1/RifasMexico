@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:842839683419:android:c681b7ecd47a4d111b2a7e",
+        "mobilesdk_app_id": "1:842839683419:android:562994daffd451fa1b2a7e",
         "android_client_info": {
-          "package_name": "com.luisiturrios1.RifasMexico"
+          "package_name": "com.iturriosdev.rifasmexico.dev"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "842839683419-qjo9t8lbdf9g1lahkjdgqoq45vqf8gh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDhbsZYew_cTeqcU3s4rW1HJO_uSb7XjwI"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842839683419-qjo9t8lbdf9g1lahkjdgqoq45vqf8gh3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "842839683419-gvctjbbancs3h25d9nsl9l24jirbsidb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.luisiturrios1.RifasMexico"
+              }
+            }
+          ]
         }
       }
     }

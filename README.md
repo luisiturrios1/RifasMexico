@@ -26,3 +26,8 @@ Rifas México es la app ideal para seguir de cerca los sorteos más emocionantes
 npx expo prebuild --clean --platform ios
 npx expo run:ios --configuration Release --device
 ```
+
+```bash
+npx expo prebuild --clean --platform android
+npx expo run:android --configuration Release --device
+```

@@ -1,4 +1,4 @@
-package com.luisiturrios1.RifasMexico
+package com.iturriosdev.rifasmexico.dev
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

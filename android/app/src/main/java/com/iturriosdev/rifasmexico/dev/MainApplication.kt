@@ -1,4 +1,4 @@
-package com.luisiturrios1.RifasMexico
+package com.iturriosdev.rifasmexico.dev
 
 import android.app.Application
 import android.content.res.Configuration

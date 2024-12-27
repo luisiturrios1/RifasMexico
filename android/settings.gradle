@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'RifasMexico'
+rootProject.name = 'Rifas Mexico (Dev)'
 
 dependencyResolutionManagement {
   versionCatalogs {

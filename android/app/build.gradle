@@ -86,13 +86,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.luisiturrios1.RifasMexico'
+    namespace 'com.iturriosdev.rifasmexico.dev'
     defaultConfig {
-        applicationId 'com.luisiturrios1.RifasMexico'
+        applicationId 'com.iturriosdev.rifasmexico.dev'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.0"
+        versionName "0.1.1"
     }
     signingConfigs {
         debug {

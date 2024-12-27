@@ -24,8 +24,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="myapp"/>
-        <data android:scheme="com.luisiturrios1.RifasMexico"/>
+        <data android:scheme="rifasmexico"/>
+        <data android:scheme="com.iturriosdev.rifasmexico.dev"/>
         <data android:scheme="exp+rifasmexico"/>
       </intent-filter>
     </activity>
