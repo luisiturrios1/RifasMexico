@@ -6,7 +6,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Rifa } from '@/lib/rifa';
-import { router } from "expo-router";
+import { Link, router, usePathname } from "expo-router";
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 
@@ -15,29 +15,27 @@ export function ListaSorteosItem({ item }: { item: Rifa }) {
   const colorScheme = useColorScheme();
   const { width } = useWindowDimensions();
 
-  const onPress = () => {
-    router.push({ pathname: "/rifa", params: { rifaId: item.id } });
-  }
-
   return (
-    <TouchableOpacity onPress={onPress}>
-      <ThemedView style={styles.item}>
-        {width > 380 && <Image source={{ uri: item.logo }} style={styles.avatar} />}
-        <ThemedView style={styles.content}>
-          <ThemedView style={styles.header}>
-            <ThemedText style={styles.name}>{item.nombre}</ThemedText>
+    <Link href={{ pathname: "/rifa/[rifaId]", params: { rifaId: item.id } }} asChild>
+      <TouchableOpacity>
+        <ThemedView style={styles.item}>
+          {width > 380 && <Image source={{ uri: item.logo }} style={styles.avatar} />}
+          <ThemedView style={styles.content}>
+            <ThemedView style={styles.header}>
+              <ThemedText style={styles.name}>{item.nombre}</ThemedText>
+            </ThemedView>
+            <Estrellas rating={item.rating} reviews={item.reviews} />
+            <Fecha fecha={item.raffleDate?.toDate()} />
           </ThemedView>
-          <Estrellas rating={item.rating} reviews={item.reviews} />
-          <Fecha fecha={item.raffleDate?.toDate()} />
+          <ThemedView>
+            <Image source={{ uri: item.imageUrl }} style={styles.cover} />
+          </ThemedView>
+          <ThemedView style={styles.deatilIcon}>
+            <IconSymbol size={15} name="chevron.right" color={Colors[colorScheme ?? 'light'].icon} />
+          </ThemedView>
         </ThemedView>
-        <ThemedView>
-          <Image source={{ uri: item.imageUrl }} style={styles.cover} />
-        </ThemedView>
-        <ThemedView style={styles.deatilIcon}>
-          <IconSymbol size={15} name="chevron.right" color={Colors[colorScheme ?? 'light'].icon} />
-        </ThemedView>
-      </ThemedView>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Link>
   );
 }
 

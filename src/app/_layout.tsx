@@ -1,6 +1,7 @@
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useEvents } from '@/hooks/useEvents';
+import { useFcmToken } from '@/hooks/useFcmToken';
 import { useNotifications } from '@/hooks/useNotifications';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import {
@@ -33,7 +34,8 @@ const RootLayout = () => {
   });
 
   useAnalytics();
-  useNotifications();
+  useFcmToken();
+  useNotifications(10000);
 
   useEffect(() => {
     if (loaded) {
@@ -50,7 +52,7 @@ const RootLayout = () => {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ title: "Rifas", headerShown: false }} />
-          <Stack.Screen name="rifa/index" options={{ title: "Rifa" }} />
+          <Stack.Screen name="rifa/[rifaId]" options={{ title: "Rifa" }} />
           <Stack.Screen name="rifa/modal" options={{
             title: "Calificar",
             presentation: "modal",

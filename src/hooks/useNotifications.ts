@@ -1,8 +1,10 @@
-import { getNotificationsToken } from "@/lib/registerNotifications";
+import { requestPermissions } from "@/lib/requestPermissions";
 import { useEffect } from "react";
 
-export const useNotifications = () => {
+export const useNotifications = (timeout: number = 0) => {
   useEffect(() => {
-    getNotificationsToken();
+    setTimeout(() => {
+      requestPermissions();
+    }, timeout);
   });
 };

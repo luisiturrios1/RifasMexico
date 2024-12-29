@@ -1,11 +1,10 @@
-import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
-
 import { Collapsible } from '@/components/Collapsible';
 import { TabParallaxScrollView } from '@/components/TabParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Link } from 'expo-router';
+import { StyleSheet } from 'react-native';
 
 export default function InfoScreen() {
   return (
