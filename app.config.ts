@@ -38,20 +38,22 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: "rifasmexico",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
+  locales: { es: "es-MX" },
+  githubUrl: "https://github.com/luisiturrios1/RifasMexico",
   ios: {
-    supportsTablet: true,
+    supportsTablet: false,
     bundleIdentifier: getBundleIdentifier(),
     googleServicesFile:
       process.env.GOOGLE_SERVICES_PLIST ?? "./GoogleService-Info.plist",
   },
   android: {
+    package: getBundleIdentifier(),
+    googleServicesFile:
+      process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
-    package: getBundleIdentifier(),
-    googleServicesFile:
-      process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
   },
   web: {
     bundler: "metro",
