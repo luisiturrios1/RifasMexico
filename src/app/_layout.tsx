@@ -1,7 +1,7 @@
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { useEvents } from '@/hooks/useEvents';
 import { useFcmToken } from '@/hooks/useFcmToken';
+import { useNotificationObserver } from '@/hooks/useNotificationObserver';
 import { useNotifications } from '@/hooks/useNotifications';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import {
@@ -10,21 +10,29 @@ import {
 } from '@tanstack/react-query';
 import Constants from 'expo-constants';
 import { useFonts } from 'expo-font';
+import * as Notifications from "expo-notifications";
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-export default function Bootstrap() {
-  useEvents();
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
+SplashScreen.preventAutoHideAsync();
+
+export default function Bootstrap() {
   if (Constants.isHeadless) {
     return null;
   }
   return <RootLayout />
 }
-
 
 const RootLayout = () => {
   const queryClient = new QueryClient();
@@ -33,15 +41,16 @@ const RootLayout = () => {
     SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  useAnalytics();
-  useFcmToken();
-  useNotifications(10000);
-
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useAnalytics();
+  useFcmToken();
+  useNotifications(10000);
+  useNotificationObserver();
 
   if (!loaded) {
     return null;

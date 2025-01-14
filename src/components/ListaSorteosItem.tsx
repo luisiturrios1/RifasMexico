@@ -6,7 +6,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Rifa } from '@/lib/rifa';
-import { Link, router, usePathname } from "expo-router";
+import { Link } from "expo-router";
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 

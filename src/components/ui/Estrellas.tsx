@@ -2,8 +2,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { formatNumber } from '@/lib/formatNumber';
 import Icon from '@expo/vector-icons/MaterialIcons';
+import React from "react";
 import { StyleSheet } from "react-native";
-
 
 interface EstrellasProps {
   rating: number | undefined;

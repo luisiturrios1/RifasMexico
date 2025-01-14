@@ -43,7 +43,7 @@ export default function Modal() {
     }
 
     load();
-  }, []);
+  }, [rifaId]);
 
   const handleStarPress = async (star: number) => {
     if (!userId) {

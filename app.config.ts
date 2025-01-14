@@ -1,6 +1,5 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
 
-const IS_DEV = process.env.APP_VARIANT === "development";
 const IS_PREVIEW = process.env.APP_VARIANT === "preview";
 const IS_PRODUCTION = process.env.APP_VARIANT === "production";
 
@@ -32,7 +31,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: getAppName(),
   slug: "RifasMexico",
-  version: "0.1.1",
+  version: "0.1.2",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
   scheme: "rifasmexico",
