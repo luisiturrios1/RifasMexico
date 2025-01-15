@@ -31,7 +31,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: getAppName(),
   slug: 'RifasMexico',
-  version: '0.1.2',
+  version: '0.1.3',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'rifasmexico',

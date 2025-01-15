@@ -3,34 +3,26 @@ import { router } from 'expo-router'
 import { useEffect, useRef } from 'react'
 
 export const useNotificationObserver = () => {
+  const receivedListener = useRef<Notifications.EventSubscription>()
   const responseListener = useRef<Notifications.EventSubscription>()
 
-  const redirect = (
-    notification: Notifications.Notification,
-    timeout: number = 1
-  ) => {
-    const url = notification.request.trigger?.payload?.url
-    if (url) {
-      setTimeout(() => {
-        router.push(url)
-      }, timeout)
-    }
-  }
-
   useEffect(() => {
+    receivedListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log(notification)
+      }
+    )
+
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        redirect(response.notification)
+      Notifications.addNotificationResponseReceivedListener(() => {
+        setTimeout(() => {
+          router.push('/notification')
+        }, 1)
       })
 
-    Notifications.getLastNotificationResponseAsync().then((response) => {
-      if (!response?.notification) {
-        return
-      }
-      redirect(response?.notification)
-    })
-
     return () => {
+      receivedListener.current &&
+        Notifications.removeNotificationSubscription(receivedListener.current)
       responseListener.current &&
         Notifications.removeNotificationSubscription(responseListener.current)
     }

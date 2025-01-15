@@ -79,6 +79,13 @@ const RootLayout = () => {
               contentStyle: { backgroundColor: 'transparent' }
             }}
           />
+          <Stack.Screen
+            name="notification"
+            options={{
+              presentation: 'modal',
+              headerShown: true
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
