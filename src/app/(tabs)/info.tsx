@@ -1,3 +1,5 @@
+import auth from '@react-native-firebase/auth'
+import * as Application from 'expo-application'
 import { Link } from 'expo-router'
 import { StyleSheet } from 'react-native'
 
@@ -8,6 +10,8 @@ import { ThemedView } from '@/components/ThemedView'
 import { IconSymbol } from '@/components/ui/IconSymbol'
 
 export default function InfoScreen() {
+  const currentUser = auth().currentUser
+
   return (
     <TabParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -68,6 +72,16 @@ export default function InfoScreen() {
         <Link href="mailto:luisiturrios1@gmail.com">
           <ThemedText type="link">Correo Electronico</ThemedText>
         </Link>
+      </Collapsible>
+      <Collapsible title="Información de la App">
+        <ThemedText type="defaultSemiBold">User Id:</ThemedText>
+        <ThemedText type="small">{currentUser?.uid}</ThemedText>
+        <ThemedText type="defaultSemiBold">Application Version:</ThemedText>
+        <ThemedText type="small">
+          {Application.nativeApplicationVersion}
+        </ThemedText>
+        <ThemedText type="defaultSemiBold">Build Version:</ThemedText>
+        <ThemedText type="small">{Application.nativeBuildVersion}</ThemedText>
       </Collapsible>
     </TabParallaxScrollView>
   )
