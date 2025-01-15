@@ -54,7 +54,7 @@ export default function InfoScreen() {
           ¿Quieres que tu rifa aparezca en Rifas México? Es muy fácil. Solo
           envía un correo electrónico con la información completa de tu rifa:
         </ThemedText>
-        <Link href="mailto:m7yh56bzps@privaterelay.appleid.com">
+        <Link href="mailto:luisiturrios1@gmail.com">
           <ThemedText type="link">Correo Electronico</ThemedText>
         </Link>
       </Collapsible>
@@ -65,7 +65,7 @@ export default function InfoScreen() {
           adjuntar una captura de pantalla y el modelo de tu teléfono para
           facilitar el seguimiento. ¡Gracias por tu ayuda!
         </ThemedText>
-        <Link href="mailto:m7yh56bzps@privaterelay.appleid.com">
+        <Link href="mailto:luisiturrios1@gmail.com">
           <ThemedText type="link">Correo Electronico</ThemedText>
         </Link>
       </Collapsible>
