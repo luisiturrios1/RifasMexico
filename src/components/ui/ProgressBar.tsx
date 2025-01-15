@@ -1,52 +1,54 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from 'react-native'
 
-import { ThemedView } from "@/components/ThemedView";
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme.web';
+import { ThemedView } from '@/components/ThemedView'
+import { Colors } from '@/constants/Colors'
+import { useColorScheme } from '@/hooks/useColorScheme.web'
 
 interface ProgressBarProps {
-  progress: number;
-  height?: number;
-  style?: ViewStyle;
+  progress: number
+  height?: number
+  style?: ViewStyle
 }
 
 export const ProgressBar = function ({
   progress,
   height = 10,
-  style = {},
+  style = {}
 }: ProgressBarProps) {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
 
   return (
     <ThemedView
-      style={
-        [
-          styles.container,
-          { height, backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor },
-          style,
-        ]}
+      style={[
+        styles.container,
+        {
+          height,
+          backgroundColor: Colors[colorScheme ?? 'light'].boxBackgroundColor
+        },
+        style
+      ]}
     >
       <ThemedView
         style={[
           styles.progress,
           {
             width: `${progress}%`,
-            backgroundColor: Colors[colorScheme ?? 'light'].tint,
-          },
+            backgroundColor: Colors[colorScheme ?? 'light'].tint
+          }
         ]}
       />
-    </ThemedView >
-  );
-};
+    </ThemedView>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
     borderRadius: 5,
-    overflow: "hidden",
+    overflow: 'hidden'
   },
   progress: {
-    height: "100%",
-    borderRadius: 5,
-  },
-});
+    height: '100%',
+    borderRadius: 5
+  }
+})

@@ -1,63 +1,73 @@
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Fecha } from '@/components/ui/Fecha';
-import { getRating, Rating, saveRating } from "@/lib/rating";
-import Icon from '@expo/vector-icons/MaterialIcons';
-import analytics from '@react-native-firebase/analytics';
-import auth from '@react-native-firebase/auth';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import Icon from '@expo/vector-icons/MaterialIcons'
+import analytics from '@react-native-firebase/analytics'
+import auth from '@react-native-firebase/auth'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import { useEffect, useState } from 'react'
+import {
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+  View
+} from 'react-native'
+
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedView } from '@/components/ThemedView'
+import { Fecha } from '@/components/ui/Fecha'
+import { getRating, Rating, saveRating } from '@/lib/rating'
 
 type Params = {
-  rifaId: string;
-  nombreRifa: string;
-};
+  rifaId: string
+  nombreRifa: string
+}
 
 export default function Modal() {
-  const { rifaId, nombreRifa } = useLocalSearchParams<Params>();
-  const router = useRouter();
-  const { height } = useWindowDimensions();
-  const [userId, setUserId] = useState<string>();
-  const [rating, setRating] = useState<Rating>();
+  const { rifaId, nombreRifa } = useLocalSearchParams<Params>()
+  const router = useRouter()
+  const { height } = useWindowDimensions()
+  const [userId, setUserId] = useState<string>()
+  const [rating, setRating] = useState<Rating>()
 
   useEffect(() => {
     const load = async () => {
-      let currentUser = auth().currentUser;
+      let currentUser = auth().currentUser
 
       // Si no hay usuario, autenticar como anónimo
       if (!currentUser) {
-        const userCredential = await auth().signInAnonymously();
-        currentUser = userCredential.user;
-        setUserId(currentUser.uid);
+        const userCredential = await auth().signInAnonymously()
+        currentUser = userCredential.user
+        setUserId(currentUser.uid)
         return
       }
 
-      setUserId(currentUser.uid);
+      setUserId(currentUser.uid)
 
       // Si el usuario existe trata de obtener la calificacion
-      const rating = await getRating({ rifaId, userId: currentUser.uid });
+      const rating = await getRating({ rifaId, userId: currentUser.uid })
       if (rating) {
-        setRating(rating);
+        setRating(rating)
       }
     }
 
-    load();
-  }, [rifaId]);
+    load()
+  }, [rifaId])
 
   const handleStarPress = async (star: number) => {
     if (!userId) {
-      return;
+      return
     }
-    setRating({ ...rating, rating: star });
-    await saveRating({ rifaId, userId: userId, rating: star });
-    await analytics().logEvent('rating', { rifaId, userId, rating: star });
-    router.back();
-  };
+    setRating({ ...rating, rating: star })
+    await saveRating({ rifaId, userId, rating: star })
+    await analytics().logEvent('rating', { rifaId, userId, rating: star })
+    router.back()
+  }
 
   return (
     <View style={{ flex: 1 }}>
-      <Pressable style={{ flex: 1 }} onPress={router.back} />
+      <Pressable
+        style={{ flex: 1 }}
+        onPress={router.back}
+      />
       <View style={[styles.content, { height: height / 3 }]}>
         <ThemedView style={styles.container}>
           <ThemedText>
@@ -80,7 +90,7 @@ export default function Modal() {
           </ThemedView>
           {rating?.fecha && (
             <ThemedText type="small">
-              Calificado el {" "}
+              Calificado el{' '}
               <Fecha
                 fecha={rating?.fecha.toDate()}
                 format="dddd, D [de] MMMM [de] YYYY, HH:mm"
@@ -91,7 +101,7 @@ export default function Modal() {
         </ThemedView>
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -99,26 +109,26 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    position: "absolute",
+    position: 'absolute',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    paddingVertical: 16,
+    paddingVertical: 16
   },
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 50,
+    paddingTop: 50
   },
   estrellasContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 20
   },
   estrella: {
     color: '#fdd835',
-    marginHorizontal: 5,
+    marginHorizontal: 5
   },
   smallText: {
     fontSize: 11,
-    lineHeight: 24,
-  },
-});
+    lineHeight: 24
+  }
+})

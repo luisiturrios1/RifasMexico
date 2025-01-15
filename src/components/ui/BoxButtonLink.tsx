@@ -1,38 +1,43 @@
-import { ThemedText } from "@/components/ThemedText";
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme.web';
-import Icon from '@expo/vector-icons/Ionicons';
-import analytics from '@react-native-firebase/analytics';
-import { openBrowserAsync } from 'expo-web-browser';
-import React, { PropsWithChildren } from "react";
-import { Linking, Platform, StyleSheet, TouchableOpacity } from "react-native";
+import Icon from '@expo/vector-icons/Ionicons'
+import analytics from '@react-native-firebase/analytics'
+import { openBrowserAsync } from 'expo-web-browser'
+import React, { PropsWithChildren } from 'react'
+import { Linking, Platform, StyleSheet, TouchableOpacity } from 'react-native'
+
+import { ThemedText } from '@/components/ThemedText'
+import { Colors } from '@/constants/Colors'
+import { useColorScheme } from '@/hooks/useColorScheme.web'
 
 type Props = PropsWithChildren<{
-  iconName: string;
-  href?: string;
-}>;
+  iconName: string
+  href?: string
+}>
 
-export const BoxButtonLink: React.FC<Props> = ({ iconName, children, href }) => {
-  const colorScheme = useColorScheme();
-  const backgroundColor = Colors[colorScheme ?? 'light'].boxBackgroundColor;
-  const iconColor = Colors[colorScheme ?? 'light'].text;
+export const BoxButtonLink: React.FC<Props> = ({
+  iconName,
+  children,
+  href
+}) => {
+  const colorScheme = useColorScheme()
+  const backgroundColor = Colors[colorScheme ?? 'light'].boxBackgroundColor
+  const iconColor = Colors[colorScheme ?? 'light'].text
 
   if (!href) {
-    return null;
+    return null
   }
 
   const onPress = async () => {
     try {
-      await analytics().logEvent('open_link', { href });
+      await analytics().logEvent('open_link', { href })
       if (Platform.OS !== 'web') {
-        await openBrowserAsync(href);
+        await openBrowserAsync(href)
       } else {
-        await Linking.openURL(href);
+        await Linking.openURL(href)
       }
     } catch (error) {
-      console.error("Error al abrir la URL:", error);
+      console.error('Error al abrir la URL:', error)
     }
-  };
+  }
 
   return (
     <TouchableOpacity
@@ -41,23 +46,27 @@ export const BoxButtonLink: React.FC<Props> = ({ iconName, children, href }) => 
       accessibilityRole="button"
       accessibilityLabel={`Abrir ${children}`}
     >
-      <Icon name={iconName} size={35} color={iconColor} />
+      <Icon
+        name={iconName}
+        size={35}
+        color={iconColor}
+      />
       <ThemedText>{children}</ThemedText>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   box: {
     width: 75,
     height: 75,
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 5,
-    marginVertical: 8,
-  },
-});
+    marginVertical: 8
+  }
+})

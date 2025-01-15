@@ -1,20 +1,20 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from 'expo-router'
+import React from 'react'
+import { Platform } from 'react-native'
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { HapticTab } from '@/components/HapticTab'
+import { IconSymbol } from '@/components/ui/IconSymbol'
+import TabBarBackground from '@/components/ui/TabBarBackground'
+import { Colors } from '@/constants/Colors'
+import { useColorScheme } from '@/hooks/useColorScheme'
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
 
   return (
     <Tabs
       screenOptions={{
-        title: "Sorteos",
+        title: 'Sorteos',
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
@@ -22,16 +22,23 @@ export default function TabLayout() {
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+            position: 'absolute'
           },
-          default: {},
-        }),
-      }}>
+          default: {}
+        })
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Rifas',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="newspaper.fill" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <IconSymbol
+              size={28}
+              name="newspaper.fill"
+              color={color}
+            />
+          )
         }}
       />
       {/* <Tabs.Screen
@@ -45,9 +52,15 @@ export default function TabLayout() {
         name="info"
         options={{
           title: 'Info',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="info.bubble.fill" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <IconSymbol
+              size={28}
+              name="info.bubble.fill"
+              color={color}
+            />
+          )
         }}
       />
     </Tabs>
-  );
+  )
 }

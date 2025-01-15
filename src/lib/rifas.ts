@@ -1,6 +1,6 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore'
 
-import { Rifa } from "@/lib/rifa";
+import { Rifa } from '@/lib/rifa'
 
 /**
  * Obtiene la lista de rifas desde Firestore.
@@ -10,14 +10,17 @@ import { Rifa } from "@/lib/rifa";
 export const fetchRifas = async (): Promise<Rifa[]> => {
   const querySnapshot = await firestore()
     .collection('rifas')
-    .orderBy("raffleDate", "desc")
-    .orderBy("rating", "desc")
-    .get();
+    .orderBy('raffleDate', 'desc')
+    .orderBy('rating', 'desc')
+    .get()
 
-  const rifas: Rifa[] = querySnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  }) as Rifa);
+  const rifas: Rifa[] = querySnapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data()
+      }) as Rifa
+  )
 
-  return rifas;
-};
+  return rifas
+}

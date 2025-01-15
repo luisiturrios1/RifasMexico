@@ -1,6 +1,6 @@
-import auth from "@react-native-firebase/auth";
-import firestore from "@react-native-firebase/firestore";
-import { Platform } from "react-native";
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import { Platform } from 'react-native'
 
 /**
  * @param token {string}
@@ -8,24 +8,23 @@ import { Platform } from "react-native";
  * @returns {Promise<void>}.
  */
 export const saveFcmToken = async (token: string): Promise<void> => {
-  console.log("saveFcmToken");
-  let currentUser = auth().currentUser;
+  let currentUser = auth().currentUser
 
   if (!currentUser) {
-    const userCredential = await auth().signInAnonymously();
-    currentUser = userCredential.user;
+    const userCredential = await auth().signInAnonymously()
+    currentUser = userCredential.user
   }
 
   await firestore()
-    .collection("fcmTokens")
+    .collection('fcmTokens')
     .doc(currentUser.uid)
     .set({
-      token: token,
+      token,
       userId: currentUser.uid,
       timestamp: firestore.FieldValue.serverTimestamp(),
       deviceInfo: {
         platform: Platform.OS,
-        version: Platform.Version,
-      },
-    });
-};
+        version: Platform.Version
+      }
+    })
+}

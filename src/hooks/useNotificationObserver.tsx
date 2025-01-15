@@ -1,35 +1,38 @@
-import * as Notifications from "expo-notifications";
-import { router } from "expo-router";
-import { useEffect, useRef } from "react";
+import * as Notifications from 'expo-notifications'
+import { router } from 'expo-router'
+import { useEffect, useRef } from 'react'
 
 export const useNotificationObserver = () => {
-  const responseListener = useRef<Notifications.EventSubscription>();
+  const responseListener = useRef<Notifications.EventSubscription>()
 
-  const redirect = (notification: Notifications.Notification, timeout: number = 1) => {
-    const url = notification.request.trigger?.payload?.url;
+  const redirect = (
+    notification: Notifications.Notification,
+    timeout: number = 1
+  ) => {
+    const url = notification.request.trigger?.payload?.url
     if (url) {
       setTimeout(() => {
-        router.push(url);
-      }, timeout);
+        router.push(url)
+      }, timeout)
     }
   }
 
   useEffect(() => {
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        redirect(response.notification);
-      });
+        redirect(response.notification)
+      })
 
     Notifications.getLastNotificationResponseAsync().then((response) => {
       if (!response?.notification) {
-        return;
+        return
       }
-      redirect(response?.notification);
-    });
+      redirect(response?.notification)
+    })
 
     return () => {
       responseListener.current &&
-        Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-};
+        Notifications.removeNotificationSubscription(responseListener.current)
+    }
+  }, [])
+}
