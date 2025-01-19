@@ -10,7 +10,8 @@ import { Rifa } from '@/lib/rifa'
 export const fetchRifas = async (): Promise<Rifa[]> => {
   const querySnapshot = await firestore()
     .collection('rifas')
-    .orderBy('raffleDate', 'desc')
+    .where('raffleDate', '>=', new Date())
+    .orderBy('raffleDate', 'asc')
     .orderBy('rating', 'desc')
     .get()
 
