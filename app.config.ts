@@ -2,6 +2,7 @@ import { ExpoConfig, ConfigContext } from 'expo/config'
 
 const IS_PREVIEW = process.env.APP_VARIANT === 'preview'
 const IS_PRODUCTION = process.env.APP_VARIANT === 'production'
+const EXPO_PROJECT_ID = '76aae774-6ecf-4945-a641-c336b18e9ced'
 
 const getAppName = () => {
   if (IS_PRODUCTION) {
@@ -31,7 +32,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: getAppName(),
   slug: 'RifasMexico',
-  version: '0.1.3',
+  version: '0.1.4',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'rifasmexico',
@@ -39,6 +40,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   newArchEnabled: true,
   locales: { es: 'es-MX' },
   githubUrl: 'https://github.com/luisiturrios1/RifasMexico',
+  runtimeVersion: 'appVersion',
+  updates: {
+    url: `https://u.expo.dev/${EXPO_PROJECT_ID}`
+  },
   ios: {
     supportsTablet: false,
     bundleIdentifier: getBundleIdentifier(),
@@ -90,7 +95,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       origin: false
     },
     eas: {
-      projectId: '76aae774-6ecf-4945-a641-c336b18e9ced'
+      projectId: EXPO_PROJECT_ID
     }
   }
 })
